@@ -4,27 +4,27 @@ import Meta from "../../../components/Meta";
 import { useRouter } from "next/router";
 import NotFound from "../../404";
 
+export async function getStaticPaths() {
+  const res = await axios("https://api.cinerama.uz/api-test/movie-list");
+  const movies = await res.data.data.movieList;
+
+  const ids = await movies.map((movie) => movie.id);
+  const paths = await ids.map((id) => ({ params: { id: id.toString() } }));
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
 export async function getStaticProps(context) {
   const { id } = context.params;
   const res = await axios(
     `https://api.cinerama.uz/api-test/movie-detail?id=${id}`
   );
-  const movie = res.data.data;
+  const movie = await res.data.data;
 
   return {
     props: { movie },
-  };
-}
-
-export async function getStaticPaths() {
-  const res = await axios("https://api.cinerama.uz/api-test/movie-list");
-  const movies = res.data.data.movieList;
-
-  const ids = movies.map((movie) => movie.id);
-  const paths = ids.map((id) => ({ params: { id: id.toString() } }));
-  return {
-    paths,
-    fallback: false,
   };
 }
 
@@ -36,6 +36,7 @@ const Movie = ({ movie = null }) => {
   return (
     <div className="container max-w-4xl mx-auto pt-6">
       <Meta title={movie.title} />
+      {console.log(movie)}
       <div className="px-3">
         <Image
           src={movie.poster}
