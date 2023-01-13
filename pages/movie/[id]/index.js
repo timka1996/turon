@@ -47,16 +47,16 @@ const Movie = ({ movie = null }) => {
         <h1 className="font-bold text-xl my-2">{movie.title}</h1>
         <p className="text-gray-600 text-sm mt-4">{movie.description}</p>
         <p className="mt-5 text-gray-600 text-sm">
-          Жанры:{" "}
-          <span className="font-bold">
+          Жанры:
+          {/* <span className="font-bold">
             {movie.genres.map((genre) => genre.title).join(", ")}
-          </span>
+          </span> */}
         </p>
         <p className="mt-5 text-gray-600 text-sm">
           Страны:{" "}
-          <span className="font-bold">
+          {/* <span className="font-bold">
             {movie.countries.map((country) => country.title).join(", ")}
-          </span>
+          </span> */}
         </p>
         <p className="text-gray-600 text-sm">
           Дата выпуска: <span className="font-bold">{movie.year}</span>
