@@ -3,9 +3,8 @@ import Image from "next/image";
 import Meta from "../../../components/Meta";
 import { useRouter } from "next/router";
 import NotFound from "../../404";
-import { useEffect, useState } from "react";
 
-export async function getStaticPaths() {
+/* export async function getStaticPaths() {
   const res = await axios("https://api.cinerama.uz/api-test/movie-list");
   const movies = await res.data.data.movieList;
   const ids = movies.map((movie) => movie.id);
@@ -14,9 +13,9 @@ export async function getStaticPaths() {
     paths,
     fallback: false,
   };
-}
+} */
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { id } = context.params;
   const res = await axios(
     `https://api.cinerama.uz/api-test/movie-detail?id=${id}`
@@ -28,20 +27,6 @@ export async function getStaticProps(context) {
 }
 
 function Movie({ movie }) {
-  const [count, setCount] = useState([]);
-
-  async function getData() {
-    const res = await axios(
-      `https://api.cinerama.uz/api-test/movie-detail?id=339`
-    );
-    const movies = res.data.data;
-    setCount(movies);
-  }
-
-  useEffect(() => {
-    getData();
-  }, []);
-
   const router = useRouter();
   if (!router.isFallback && !movie) {
     return <NotFound statusCode={404} />;
