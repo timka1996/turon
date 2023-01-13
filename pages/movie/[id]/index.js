@@ -29,13 +29,23 @@ import { useEffect, useState } from "react";
 
 function Movie(/* { movie } */) {
   const [movie, setMovie] = useState([]);
+  const [genres, setGenres] = useState([]);
+  const [countries, setCountries] = useState([]);
+  const [employees, setEmployees] = useState([]);
 
   async function getData() {
     const res = await axios(
       `https://api.cinerama.uz/api-test/movie-detail?id=${router.query.id}`
     );
     const movies = res.data.data;
+    const genres = movies.genres;
+    const countries = movies.countries;
+    const employees = movies.people[0].employees;
+
     setMovie(movies);
+    setGenres(genres);
+    setCountries(countries);
+    setEmployees(employees);
   }
 
   useEffect(() => {
@@ -63,15 +73,15 @@ function Movie(/* { movie } */) {
         <p className="text-gray-600 text-sm mt-4">{movie.description}</p>
         <p className="mt-5 text-gray-600 text-sm">
           Жанры:{" "}
-          {/* <span className="font-bold">
-            {movie.genres.map((genre) => genre.title).join(", ")}
-          </span> */}
+          <span className="font-bold">
+            {genres.map((genre) => genre.title).join(", ")}
+          </span>
         </p>
         <p className="mt-5 text-gray-600 text-sm">
           Страны:{" "}
-          {/* <span className="font-bold">
-            {movie.countries.map((country) => country.title).join(", ")}
-          </span> */}
+          <span className="font-bold">
+            {countries.map((country) => country.title).join(", ")}
+          </span>
         </p>
         <p className="text-gray-600 text-sm">
           Дата выпуска: <span className="font-bold">{movie.year}</span>
@@ -92,6 +102,22 @@ function Movie(/* { movie } */) {
       <h1 className="text-center text-2xl font-bold my-5">
         В ролях снимались:
       </h1>
+      <div className="row mt-5">
+        {employees.map((e) => (
+          <div className="col-md-2 mt-4" key={e.id}>
+            <div className="px-3">
+              <h3>{e.full_name}</h3>
+              <Image
+                src={e.photo}
+                width={300}
+                height={300}
+                className="rounded-md"
+                alt={e.full_name}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

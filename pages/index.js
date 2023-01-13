@@ -22,8 +22,6 @@ export default function Home({ movies }) {
 
   return (
     <div className="bg-gray-700">
-      {console.log(page)}
-      {/*       <Main movies={movies.data.movieList} /> */}
       <Main movies={page} />
       <div className="flex justify-center">
         {count === 1 ? (
