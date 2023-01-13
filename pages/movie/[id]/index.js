@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 export async function getStaticPaths() {
   const res = await axios("https://api.cinerama.uz/api-test/movie-list");
   const movies = await res.data.data.movieList;
-
+  console.log(1);
+  console.log(movies);
   const ids = movies.map((movie) => movie.id);
   const paths = ids.map((id) => ({ params: { id: id.toString() } }));
   return {
@@ -23,7 +24,8 @@ export async function getStaticProps(context) {
     `https://api.cinerama.uz/api-test/movie-detail?id=${id}`
   );
   const movie = res.data.data;
-
+  console.log(2);
+  console.log(movie);
   return {
     props: { movie },
   };
@@ -53,8 +55,6 @@ function Movie({ movie }) {
     <div className="container max-w-4xl mx-auto pt-6">
       <Meta title={movie.title} />
       <div className="px-3">
-        {console.log(count)}
-        {console.log(1)}
         {console.log(movie)}
         <Image
           src={movie.poster}
